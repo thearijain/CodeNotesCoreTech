@@ -20,11 +20,11 @@ class ViewController: UIViewController, SyntaxTextViewDelegate {
         
 //        setupTextView()
         setupImage()
-        detextTextWithApple(image: imageView.image!)
+        detectTextWithApple(image: imageView.image!)
     }
 
     
-    func detextTextWithApple(image: UIImage) {
+    func detectTextWithApple(image: UIImage) {
         guard let cgImage = image.cgImage else { return }
         let requestHandler = VNImageRequestHandler(cgImage: cgImage)
         let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
@@ -53,6 +53,7 @@ class ViewController: UIViewController, SyntaxTextViewDelegate {
             print("=== \t", candidate.string)
             addCGRect(frame: observation.boundingBox)
             print("=== \t bounding box of observation : ", observation.boundingBox)
+            
 //            if let range = candidate.string.range(of: "def") {
 //                do {
 //                    let boundingBoxForRange = try candidate.boundingBox(for: range)
