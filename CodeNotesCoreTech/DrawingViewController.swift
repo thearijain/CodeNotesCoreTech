@@ -43,30 +43,11 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         view.addSubview(canvasView)
         canvasView.frame = view.bounds
     }
-    
-    func watchLassoTool() {
-//        let observer = lassoTool.observe(\.selectedBezierPath) { tool, change in
-//
-//            // Retrieve the selected path (if any)
-//            if let selectedPath = tool.selectedBezierPath {
-//
-//                // Create a new PKDrawing object containing only the selected region
-//                let selectedDrawing = PKDrawing(
-//                    strokes: canvasView.drawing.strokes.filter { selectedPath.intersects($0.path) },
-//                    backgroundColor: canvasView.drawing.backgroundColor
-//                )
-//
-//                // Do something with the selectedDrawing, e.g. save it to a file or display it in a new view.
-//
-//                // Reset the selected path
-//                tool.selectedBezierPath = nil
-//            }
-//        }
-//        self.lassoToolObserver = observer
-    }
-    
+        
     func addHighlightArea() {
-        highlightedArea = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 400, height: 400)))
+        highlightedArea = UIView(
+            frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 400, height: 400))
+        )
         highlightedArea.translatesAutoresizingMaskIntoConstraints = false
         highlightedArea.backgroundColor = .clear
         highlightedArea.layer.borderColor = UIColor.green.cgColor
@@ -74,21 +55,7 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         highlightedArea.isUserInteractionEnabled = false
         self.canvasView.addSubview(highlightedArea)
     }
-    
-    func findDrawingsInBox() {
-        var boundingBoxes: [CGRect] = []
-        for stroke in self.canvasView.drawing.strokes {
-            let boundingBox = getStrokeBoundingBox(stroke: stroke)
-            boundingBoxes.append(boundingBox)
-        }
         
-        for box in boundingBoxes {
-            if CGRectIntersectsRect(highlightedArea.bounds, box) {
-                // Need to color this stroke.
-            }
-        }
-    }
-    
     // Iterate through all strokes. Find strokes that are in the bounding box. Color them.
     @objc func colorStrokesInHighlightedBox() {
         DispatchQueue.main.async {
