@@ -102,6 +102,21 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         let strokeBoundingBox = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
         return strokeBoundingBox
     }
+    
+    func changeColor() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            print("=== begin")
+            var newStrokes = [PKStroke]()
+            for stroke in self.canvasView.drawing.strokes {
+                var newStroke = PKStroke(ink: stroke.ink, path: stroke.path)
+                newStroke.ink.color = .cyan
+                newStrokes.append(newStroke)
+                print("=== copy strokes: ", newStrokes)
+            }
+            self.canvasView.drawing.strokes = newStrokes
+            print("=== end")
+        }
+    }
 
     
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
