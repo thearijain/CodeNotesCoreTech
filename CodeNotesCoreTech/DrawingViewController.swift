@@ -15,12 +15,14 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
     var toolPicker = PKToolPicker()
     var lassoToolObserver: NSKeyValueObservation?
     var highlightedArea = UIView()
+    let convertButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCanvasView()
         findDrawingsInBox()
         addHighlightArea()
+        setupConvertButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,8 +84,27 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         
         for box in boundingBoxes {
             if CGRectIntersectsRect(highlightedArea.bounds, box) {
-                print("=== overlapping box")
+                // Need to color this stroke.
             }
+        }
+    }
+    
+    // Iterate through all strokes. Find strokes that are in the bounding box. Color them.
+    @objc func colorStrokesInHighlightedBox() {
+        DispatchQueue.main.async {
+            var newStrokes = [PKStroke]()
+            for stroke in self.canvasView.drawing.strokes {
+                let boundingBox = self.getStrokeBoundingBox(stroke: stroke)
+                if CGRectIntersectsRect(self.highlightedArea.bounds, boundingBox) {
+                    // Color this stroke
+                    var coloredStroke = PKStroke(ink: stroke.ink, path: stroke.path)
+                    coloredStroke.ink.color = .red
+                    newStrokes.append(coloredStroke)
+                } else {
+                    newStrokes.append(stroke)
+                }
+            }
+            self.canvasView.drawing.strokes = newStrokes
         }
     }
     
@@ -102,11 +123,19 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         let strokeBoundingBox = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
         return strokeBoundingBox
     }
+    
+    func setupConvertButton() {
+        convertButton.translatesAutoresizingMaskIntoConstraints = false
+        convertButton.backgroundColor = .green
+        convertButton.setTitle("Convert", for: .normal)
+        convertButton.frame = CGRect(origin: CGPoint(x: 600, y: 600), size: CGSize(width: 100, height: 100))
+        self.canvasView.addSubview(convertButton)
+        convertButton.addTarget(self, action: #selector(colorStrokesInHighlightedBox), for: .touchDown)
+    }
 
     
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
         print("=== canvasViewDrawingDidChange\n")
-        findDrawingsInBox()
     }
     
     func canvasViewDidFinishRendering(_ canvasView: PKCanvasView) {
