@@ -20,7 +20,6 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCanvasView()
-        findDrawingsInBox()
         addHighlightArea()
         setupConvertButton()
     }
@@ -61,15 +60,14 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         DispatchQueue.main.async {
             var newStrokes = [PKStroke]()
             for stroke in self.canvasView.drawing.strokes {
+                var strokeToAppend = stroke
                 let boundingBox = self.getStrokeBoundingBox(stroke: stroke)
+                
                 if CGRectIntersectsRect(self.highlightedArea.bounds, boundingBox) {
                     // Color this stroke
-                    var coloredStroke = PKStroke(ink: stroke.ink, path: stroke.path)
-                    coloredStroke.ink.color = .red
-                    newStrokes.append(coloredStroke)
-                } else {
-                    newStrokes.append(stroke)
+                    strokeToAppend.ink.color = .red
                 }
+                newStrokes.append(strokeToAppend)
             }
             self.canvasView.drawing.strokes = newStrokes
         }
