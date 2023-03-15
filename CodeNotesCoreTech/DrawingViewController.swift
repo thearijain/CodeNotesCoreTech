@@ -55,39 +55,25 @@ class DrawingViewController: UIViewController, PKCanvasViewDelegate, PKToolPicke
         self.canvasView.addSubview(highlightedArea)
     }
         
-    // Iterate through all strokes. Find strokes that are in the bounding box. Color them.
+    // Iterate through all strokes. Iterate through all the points that are in the bounding box. Color them.
     @objc func colorStrokesInHighlightedBox() {
         DispatchQueue.main.async {
             var newStrokes = [PKStroke]()
             for stroke in self.canvasView.drawing.strokes {
                 var strokeToAppend = stroke
-                let boundingBox = self.getStrokeBoundingBox(stroke: stroke)
                 
-                if CGRectIntersectsRect(self.highlightedArea.bounds, boundingBox) {
-                    // Color this stroke
-                    strokeToAppend.ink.color = .red
+                for path in stroke.path {
+                    var point = path.location
+                    if CGRectContainsPoint(self.highlightedArea.frame, point) {
+                        strokeToAppend.ink.color = .systemPink
+                        break
+                    }
                 }
                 newStrokes.append(strokeToAppend)
             }
             self.canvasView.drawing.strokes = newStrokes
         }
-    }
-    
-    func getStrokeBoundingBox(stroke: PKStroke) -> CGRect {
-        var minX = CGFloat.greatestFiniteMagnitude
-        var minY = CGFloat.greatestFiniteMagnitude
-        var maxX = CGFloat.leastNormalMagnitude
-        var maxY = CGFloat.leastNormalMagnitude
-        for path in stroke.path {
-            let point = path.location
-            minX = min(minX, point.x)
-            minY = min(minY, point.y)
-            maxX = max(maxX, point.x)
-            maxY = max(maxY, point.y)
-        }
-        let strokeBoundingBox = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
-        return strokeBoundingBox
-    }
+    }    
     
     func setupConvertButton() {
         convertButton.translatesAutoresizingMaskIntoConstraints = false
