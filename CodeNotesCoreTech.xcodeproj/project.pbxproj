@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		097034D629C2262C00296748 /* DrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097034D529C2262C00296748 /* DrawingViewController.swift */; };
 		09FDD74429C1192800908E5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDD74329C1192800908E5D /* AppDelegate.swift */; };
 		09FDD74629C1192800908E5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDD74529C1192800908E5D /* SceneDelegate.swift */; };
 		09FDD74829C1192800908E5D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDD74729C1192800908E5D /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		097034D529C2262C00296748 /* DrawingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingViewController.swift; sourceTree = "<group>"; };
 		09FDD74029C1192800908E5D /* CodeNotesCoreTech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeNotesCoreTech.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FDD74329C1192800908E5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09FDD74529C1192800908E5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				09FDD74329C1192800908E5D /* AppDelegate.swift */,
 				09FDD74529C1192800908E5D /* SceneDelegate.swift */,
 				09FDD74729C1192800908E5D /* ViewController.swift */,
+				097034D529C2262C00296748 /* DrawingViewController.swift */,
 				09FDD74929C1192800908E5D /* Main.storyboard */,
 				09FDD74C29C1192900908E5D /* Assets.xcassets */,
 				09FDD74E29C1192900908E5D /* LaunchScreen.storyboard */,
@@ -407,6 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09FDD74829C1192800908E5D /* ViewController.swift in Sources */,
+				097034D629C2262C00296748 /* DrawingViewController.swift in Sources */,
 				09FDD74429C1192800908E5D /* AppDelegate.swift in Sources */,
 				09FDD74629C1192800908E5D /* SceneDelegate.swift in Sources */,
 			);
